@@ -4,32 +4,29 @@ from model import FloodModel
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.utils import class_weight
-
 def plot_training_history(history):
-    """Plot training metrics"""
-    plt.figure(figsize=(15, 5))
+    """Plot training and validation metrics"""
+    metrics = ['accuracy', 'loss', 'precision', 'recall', 'auc']
     
-    # Accuracy
-    plt.subplot(1, 2, 1)
-    plt.plot(history.history['accuracy'], label='Train')
-    plt.plot(history.history['val_accuracy'], label='Validation')
-    plt.title('Model Accuracy')
-    plt.ylabel('Accuracy')
-    plt.xlabel('Epoch')
-    plt.legend()
+    plt.figure(figsize=(18, 12))
     
-    # Loss
-    plt.subplot(1, 2, 2)
-    plt.plot(history.history['loss'], label='Train')
-    plt.plot(history.history['val_loss'], label='Validation')
-    plt.title('Model Loss')
-    plt.ylabel('Loss')
-    plt.xlabel('Epoch')
-    plt.legend()
+    for idx, metric in enumerate(metrics):
+        plt.subplot(3, 2, idx+1)
+        
+        if metric in history.history:
+            plt.plot(history.history[metric], label=f'Train {metric}')
+            plt.plot(history.history[f'val_{metric}'], label=f'Val {metric}')
+            plt.title(f'{metric.capitalize()} Curve')
+            plt.xlabel('Epochs')
+            plt.ylabel(metric.capitalize())
+            plt.legend()
+        else:
+            print(f"Warning: {metric} not found in history.")
     
     plt.tight_layout()
-    plt.savefig('training_history.png')
+    plt.savefig('model_curve.png')
     plt.close()
+
 
 def train_model():
     # Initialize

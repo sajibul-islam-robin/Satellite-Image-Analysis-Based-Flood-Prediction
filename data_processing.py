@@ -6,7 +6,7 @@ from skimage import io
 import matplotlib.pyplot as plt
 
 class DataProcessor:
-    def __init__(self, data_path, img_size=(128, 128)):
+    def __init__(self, data_path, img_size=(256, 256)):
         self.data_path = data_path
         self.img_size = img_size
         self.classes = ['flood', 'non_flood']
